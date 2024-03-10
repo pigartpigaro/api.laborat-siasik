@@ -72,8 +72,11 @@ class BKUController extends Controller
     }
     public function spm()
     {
+        $awal=request('tglmulai');
+        $akhir=request('tglakhir');
         $spm = SpmUP::select('noSpm','tglSpm','jumlahspp')
-        ->get();
+        ->whereBetween('tglnpk', [$awal, $akhir])
+        ->paginate(request('per_page'));
         return new JsonResponse($spm);
     }
     public function panjar(){
@@ -87,6 +90,20 @@ class BKUController extends Controller
                     'npkpanjar_heder.nonpk',
                     'npkpanjar_heder.tglnpk',
                     'npkpanjar_heder.nonpdpanjar');
+                },'npdpjr_head'=>function($npdpjr_head){
+                    $npdpjr_head->with(['npdpjr_rinci'=>function($npdpjr_rinci){
+                    $npdpjr_rinci->select(
+                        'npdpanjar_rinci.nonpdpanjar',
+                        'npdpanjar_rinci.koderek50',
+                        'npdpanjar_rinci.rincianbelanja50',
+                        'npdpanjar_rinci.totalpermintaanpanjar');
+                    }])->select(
+                        'npdpanjar_heder.nonpdpanjar',
+                        'npdpanjar_heder.tglnpdpanjar',
+                        'npdpanjar_heder.kodepptk',
+                        'npdpanjar_heder.pptk',
+                        'npdpanjar_heder.kegiatanblud',
+                        'npdpanjar_heder.bidang');
                 }])->select(
                     'npkpanjar_rinci.nonpk',
                     'npkpanjar_rinci.nonpd',
@@ -120,7 +137,7 @@ class BKUController extends Controller
         }])
         // $panjar = NpkPanjar_Header::select('nonpk','tglnpk')
         // ->with('npkrinci:nonpk,nonpd,kegiatanblud,total','')
-        // ->where('notrans', '120/11/2023/T-GS')
+        ->where('notrans', '66/06/2022/T-GS')
         ->paginate(request('per_page'));
         return new JsonResponse($kas);
     }

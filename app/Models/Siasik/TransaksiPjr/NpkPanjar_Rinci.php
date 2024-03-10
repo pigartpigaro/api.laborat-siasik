@@ -16,4 +16,8 @@ class NpkPanjar_Rinci extends Model
     {
         return $this->belongsTo(NpkPanjar_Header::class, 'nonpk', 'nonpk');
     }
+    public function npdpjr_head()
+    {
+        return $this->belongsTo(NpdPanjar_Header::class, 'nonpd', 'nonpdpanjar');
+    }
 }
