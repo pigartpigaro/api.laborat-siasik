@@ -16,4 +16,8 @@ class NpdPanjar_Header extends Model
     {
         return $this->hasMany(NpdPanjar_Rinci::class, 'nonpdpanjar', 'nonpdpanjar');
     }
+    public function nota_head()
+    {
+        return $this->belongsTo(NotaPanjar_Header::class, 'nonpdpanjar', 'nonpd');
+    }
 }

@@ -26,6 +26,6 @@ class GeserKas_Rinci extends Model
     }
     public function npkrinci()
     {
-        return $this->hasMany(NpkPanjar_Rinci::class, 'nonpd', 'nonpd');
+        return $this->hasMany(NpkPanjar_Rinci::class, 'nonpk', 'nonpk');
     }
 }

@@ -16,4 +16,8 @@ class CpSisaPanjar_Header extends Model
     {
         return $this->hasMany(CpSisaPanjar_Rinci::class, 'nopengembaliansisapanjar', 'nopengembaliansisapanjar');
     }
+    // public function npdpjr_head()
+    // {
+    //     return $this->belongsTo(NpdPanjar_Header::class, 'nonpdpanjar', 'nonpdpanjar');
+    // }
 }

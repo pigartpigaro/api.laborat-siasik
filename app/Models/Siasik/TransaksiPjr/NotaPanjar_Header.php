@@ -12,4 +12,8 @@ class NotaPanjar_Header extends Model
     protected $guarded = ['id'];
     protected $table = 'notapanjar_heder';
     protected $timestamp = false;
+    public function nota_rinci()
+    {
+        return $this->hasMany(NotaPanjar_Rinci::class, 'nonotapanjar', 'nonotapanjar');
+    }
 }

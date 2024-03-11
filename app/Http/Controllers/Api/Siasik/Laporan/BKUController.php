@@ -79,8 +79,11 @@ class BKUController extends Controller
         ->paginate(request('per_page'));
         return new JsonResponse($spm);
     }
-    public function panjar(){
-        $kas = GeserKas_Header::select('notrans','tgltrans','jenis')
+    public function panjar()
+    {
+        $awal=request('tglmulai');
+        $akhir=request('tglakhir');
+        $kas = GeserKas_Header::select('notrans','tgltrans','jenis','tglverif')
         ->with(['kasrinci'=> function($kasrinci)
         {
             $kasrinci->with(['npkrinci'=>function($npkrinci){
@@ -97,6 +100,28 @@ class BKUController extends Controller
                         'npdpanjar_rinci.koderek50',
                         'npdpanjar_rinci.rincianbelanja50',
                         'npdpanjar_rinci.totalpermintaanpanjar');
+                    }, 'nota_head'=>function($notahead){
+                        $notahead->with(['nota_rinci'=>function($notarinci){
+                        $notarinci->with(['spj_head'=>function($spjhead){
+                            $spjhead->with(['spj_rinci'=>function($spjrinci){
+                                $spjrinci->select(
+                                    'spjpanjar_rinci.nospjpanjar',
+                                    'spjpanjar_rinci.nonpdpanjar',
+                                    'spjpanjar_rinci.koderek50',
+                                    'spjpanjar_rinci.rincianbelanja50',
+                                    'spjpanjar_rinci.jumlahbelanjapanjar');
+                            }])->select(
+                                'spjpanjar_heder.notapanjar',
+                                'spjpanjar_heder.nospjpanjar',
+                                'spjpanjar_heder.tglspjpanjar',
+                            );
+                        }])->select(
+                            'notapanjar_rinci.nonotapanjar',
+                            'notapanjar_rinci.total');
+                        }])->select(
+                            'notapanjar_heder.nonpd',
+                            'notapanjar_heder.nonotapanjar',
+                            'notapanjar_heder.tglnotapanjar');
                     }])->select(
                         'npdpanjar_heder.nonpdpanjar',
                         'npdpanjar_heder.tglnpdpanjar',
@@ -118,9 +143,10 @@ class BKUController extends Controller
                     'pengembaliansisapanjar_rinci.rincianbelanja50',
                     'pengembaliansisapanjar_rinci.sisapanjar');
             }])->select(
+                    'pengembaliansisapanjar_heder.nonpdpanjar',
                     'pengembaliansisapanjar_heder.nopengembaliansisapanjar',
                     'pengembaliansisapanjar_heder.tglpengembaliansisapanjar',
-                    'pengembaliansisapanjar_heder.kegiatanblud');
+                    'pengembaliansisapanjar_heder.kegiatanblud',);
             },'cppjr_head'=>function($cphead){
                 $cphead->with(['cppjr_rinci'=>function($cprinci){
                     $cprinci->select(
@@ -137,7 +163,8 @@ class BKUController extends Controller
         }])
         // $panjar = NpkPanjar_Header::select('nonpk','tglnpk')
         // ->with('npkrinci:nonpk,nonpd,kegiatanblud,total','')
-        ->where('notrans', '66/06/2022/T-GS')
+        ->whereBetween('tgltrans', [$awal, $akhir])
+        // ->where('notrans', '137/01/2024/T-GS')
         ->paginate(request('per_page'));
         return new JsonResponse($kas);
     }
@@ -161,4 +188,5 @@ class BKUController extends Controller
         ->get();
         return($npd);
     }
+
 }
