@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Siasik\TransaksiLS\NpdLS_rinci;
 use App\Models\Siasik\TransaksiLS\NpkLS_heder;
 use App\Models\Siasik\TransaksiPjr\GeserKas_Header;
+use App\Models\Siasik\TransaksiPjr\Nihil;
 use App\Models\Siasik\TransaksiPjr\NpkPanjar_Header;
 use App\Models\Siasik\TransaksiPjr\SpmUP;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +60,7 @@ class BKUController extends Controller
 
                 }])->select( 'nonpk',
                 'nonpdls',
+                'kegiatanblud',
                 'nopencairan',
                 'total');
             }])
@@ -167,6 +169,25 @@ class BKUController extends Controller
         // ->where('notrans', '137/01/2024/T-GS')
         ->paginate(request('per_page'));
         return new JsonResponse($kas);
+    }
+
+    public function nihil()
+    {
+        $awal=request('tglmulai');
+        $akhir=request('tglakhir');
+        $nihil = Nihil::select(
+            'nopengembalian',
+            'tgltrans',
+            'jmlup',
+            'jmlspj',
+            'jmlcp',
+            'jmlpengembalianup',
+            'jmlsisaup',
+            'jmlpengembalianreal',)
+        // ->whereBetween('tgltrans', [$awal, $akhir])
+        // ->get();
+        ->paginate(request('per_page'));
+        return new JsonResponse($nihil);
     }
     // coba appends
     public function kode(){

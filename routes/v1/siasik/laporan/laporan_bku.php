@@ -14,6 +14,7 @@ Route::group([
 
     Route::get('/spm', [BKUController::class,'spm']);
     Route::get('/panjar', [BKUController::class,'panjar']);
+    Route::get('/nihil', [BKUController::class,'nihil']);
 });
 
 
