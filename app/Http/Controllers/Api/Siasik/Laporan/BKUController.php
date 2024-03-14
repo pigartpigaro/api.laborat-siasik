@@ -8,6 +8,7 @@ use App\Models\Siasik\TransaksiLS\NpkLS_heder;
 use App\Models\Siasik\TransaksiPjr\GeserKas_Header;
 use App\Models\Siasik\TransaksiPjr\Nihil;
 use App\Models\Siasik\TransaksiPjr\NpkPanjar_Header;
+use App\Models\Siasik\TransaksiPjr\SPM_GU;
 use App\Models\Siasik\TransaksiPjr\SpmUP;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -60,6 +61,7 @@ class BKUController extends Controller
 
                 }])->select( 'nonpk',
                 'nonpdls',
+                'kegiatan',
                 'kegiatanblud',
                 'nopencairan',
                 'total');
@@ -76,10 +78,14 @@ class BKUController extends Controller
     {
         $awal=request('tglmulai');
         $akhir=request('tglakhir');
-        $spm = SpmUP::select('noSpm','tglSpm','jumlahspp')
-        ->whereBetween('tglnpk', [$awal, $akhir])
-        ->paginate(request('per_page'));
-        return new JsonResponse($spm);
+        $spm = SpmUP::orderBy('tglSpm','desc')->get();
+        $gu = SPM_GU::orderBy('tglSpm','desc')->get();
+        $all = $spm->merge($gu)->groupBy(function($item){
+            return $item->tglSpm;
+        });
+        // ->whereBetween('tglSpm', [$awal, $akhir]);
+        // ->paginate(request('per_page'));
+        return new JsonResponse($all);
     }
     public function panjar()
     {

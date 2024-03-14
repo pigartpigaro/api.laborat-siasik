@@ -10,6 +10,6 @@ class SPM_GU extends Model
     use HasFactory;
     protected $connection = 'siasik';
     protected $guarded = ['id'];
-    protected $table = 'notapanjar_heder';
+    protected $table = 'transSpmgu';
     protected $timestamp = false;
 }
