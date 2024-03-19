@@ -32,6 +32,12 @@ class BKUController extends Controller
             ->paginate(request('per_page'));
 
         return new JsonResponse($keluar);
+
+    //     $keluar = NpkLS_heder::with(['npklsrinci'])
+
+    //         ->find($id);
+    //    return view('bku.coba') ->with('npklsrinci', $keluar);
+
     }
 
     public function bkubpl()
