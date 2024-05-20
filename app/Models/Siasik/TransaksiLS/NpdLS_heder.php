@@ -13,6 +13,8 @@ class NpdLS_heder extends Model
     protected $table = 'npdls_heder';
     public function npdlsrinci()
     {
-        return $this->hasMany(NpdLS_rinci::class);
+        return $this->hasMany(NpdLS_rinci::class, 'nonpdls', 'nonpdls');
     }
+
+
 }

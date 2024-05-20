@@ -12,5 +12,9 @@ class NpkPanjar_Header extends Model
     protected $guarded = ['id'];
     protected $table = 'npkpanjar_heder';
     protected $timestamp = false;
+    public function npkrinci()
+    {
+        return $this->hasMany(NpkPanjar_Rinci::class, 'nonpk', 'nonpk');
+    }
 
 }

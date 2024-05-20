@@ -22,4 +22,8 @@ class NpdLS_rinci extends Model
     public function cp(){
         return $this->hasMany(Contrapost::class,'nonpd','nonpdls');
     }
+    public function headerls()
+    {
+        return $this->belongsTo(NpdLS_heder::class, 'nonpdls', 'nonpdls');
+    }
 }

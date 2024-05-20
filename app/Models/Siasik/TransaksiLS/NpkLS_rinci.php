@@ -21,7 +21,15 @@ class NpkLS_rinci extends Model
     {
         return $this->hasMany(NpdLS_rinci::class, 'nonpdls', 'nonpdls');
     }
+    public function npdlshead()
+    {
+        return $this->belongsTo(NpdLS_heder::class, 'nonpdls', 'nonpdls');
+    }
     // public function cp(){
     //     return $this->hasMany(Contrapost::class,'nonpd','nonpdls');
     // }
+    public function header()
+    {
+        return $this->belongsTo(NpkLS_heder::class, 'nonpk', 'nonpk');
+    }
 }

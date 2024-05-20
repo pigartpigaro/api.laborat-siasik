@@ -18,6 +18,10 @@ class NpkPanjar_Rinci extends Model
     }
     public function npdpjr_head()
     {
-        return $this->belongsTo(NpdPanjar_Header::class, 'nonpd', 'nonpdpanjar');
+        return $this->hasMany(NpdPanjar_Header::class, 'nonpdpanjar', 'nonpd');
+    }
+    public function npdpjr_rinci()
+    {
+        return $this->hasMany(NpdPanjar_Rinci::class, 'nonpdpanjar', 'nonpd');
     }
 }
